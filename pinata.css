@@ -1,0 +1,234 @@
+/* --- Global Reset & Setup --- */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden; /* Penting untuk mengontrol animasi jatuhan */
+}
+
+.main-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 400px;
+    padding-top: 150px; /* Ruang untuk pesan dan tali */
+}
+
+/* --- Pesan Status --- */
+.message-box {
+    position: absolute;
+    top: 50px;
+    text-align: center;
+    width: 100%;
+    z-index: 10;
+}
+#status-message {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #4a4a4a;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+/* --- Tali Gantungan --- */
+.hanging-rope {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 5px;
+    height: 150px; /* Panjang tali */
+    background-color: #5d4037;
+    border-radius: 0 0 5px 5px;
+    z-index: 1;
+}
+
+/* --- Piñata Utama --- */
+.pinata-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    cursor: pointer;
+    transition: transform 0.2s ease-out, opacity 0.5s ease-out;
+    z-index: 5;
+    /* Animasi goyangan ringan */
+    animation: swing 4s ease-in-out infinite alternate;
+}
+
+.star {
+    /* Representasi visual Piñata (Bintang 8 Sisi) */
+    width: 100%;
+    height: 100%;
+    background-color: #ff9800; /* Oranye utama */
+    border-radius: 50%;
+    position: relative;
+    transition: all 0.5s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Efek Bintang (dengan pseudo-elements) */
+.star::before, .star::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #ff4081; /* Pink Cerah */
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    transform: rotate(45deg);
+}
+.star::after {
+    background-color: #2196f3; /* Biru Cerah */
+    transform: rotate(22.5deg);
+}
+
+.click-hint {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.8em;
+    color: #555;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+/* --- Status Piñata --- */
+/* Status: Retak (Klik 1) */
+.pinata-container.cracked .star {
+    transform: scale(1.05) rotate(5deg);
+    /* Tambahkan efek visual retak */
+    filter: drop-shadow(0 0 10px rgba(255, 255, 0, 0.5));
+}
+.pinata-container.cracked .crack-overlay {
+    opacity: 1; /* Retakan terlihat */
+}
+
+/* Status: Pecah (Klik 2) */
+.pinata-container.burst {
+    opacity: 0;
+    transform: scale(0.5) translateY(100px) rotate(10deg);
+    pointer-events: none;
+}
+
+
+/* --- Efek Retak CSS Murni --- */
+.crack-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s;
+    /* Menggunakan SVG inline untuk bentuk retakan */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 100 100'%3E%3Cpath d='M50,10 L60,40 L90,50 L60,60 L50,90 L40,60 L10,50 L40,40 Z' fill='none' stroke='%23333' stroke-width='2' stroke-dasharray='5 2'/%3E%3Cpath d='M30,30 L45,45 L50,50 L60,40 L70,30 M50,50 L55,65 L65,70' fill='none' stroke='%23333' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-size: cover;
+    mix-blend-mode: multiply; /* Agar retakan terlihat menyatu dengan warna piñata */
+}
+
+/* --- Animasi Goyangan Piñata --- */
+@keyframes swing {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(5deg); }
+}
+
+/* --- Animasi Jatuhan Meriah --- */
+#drop-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.falling-item {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    will-change: transform, opacity;
+}
+
+/* Style khusus untuk Kue Mini */
+.mini-cake {
+    width: 25px;
+    height: 25px;
+    background-color: #fff;
+    border: 3px solid #ff4081; /* Icing pink */
+    border-radius: 5px;
+    position: relative;
+}
+.mini-cake::before {
+    content: '';
+    position: absolute;
+    width: 3px;
+    height: 5px;
+    background-color: orange;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1px;
+}
+
+/* Keyframes untuk Jatuhan/Gravitasi */
+@keyframes drop {
+    0% { transform: translate(var(--x), 0) rotate(0deg); opacity: 1; }
+    100% { transform: translate(var(--x), 100vh) rotate(720deg); opacity: 0.8; }
+}
+
+/* --- Modal Pesan Akhir (Digunakan di Klik ke-2) --- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: modal-in 0.3s ease-out;
+}
+.modal-content h2 {
+    color: #ff4081;
+    font-size: 2em;
+    margin-top: 0;
+}
+.modal-content button {
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+.modal-content button:hover {
+    background-color: #1976d2;
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
