@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pinata Vintut🪅</title>
+    <!-- Memuat Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pinata.css">
+</head>
+<body>
+
+    <!-- Container utama untuk efek jatuhan -->
+    <div id="drop-container"></div>
+
+    <div class="main-wrapper">
+        
+        <!-- Pesan Status -->
+        <div class="message-box">
+            <h1 id="status-message">AYO PUKUL PINATA INI!🪅🪄 (Klik Piñata)</h1>
+        </div>
+        
+        <!-- Elemen Tali Gantungan -->
+        <div class="hanging-rope"></div>
+
+        <!-- Piñata (Elemen Interaktif) -->
+        <div class="pinata-container" id="pinataContainer" onclick="hitPinata()">
+            <!-- Bagian Bintang Piñata -->
+            <div class="star">
+                <!-- Tambahkan elemen untuk efek retak -->
+                <div class="crack-overlay" id="crackOverlay"></div>
+            </div>
+            <!-- Petunjuk klik -->
+            <p class="click-hint">KLIK SAYA!</p>
+        </div>
+
+        <!-- Kotak Modal Pesan Akhir (Awalnya tersembunyi) -->
+        <div id="final-message-modal" class="modal hidden">
+            <div class="modal-content">
+                <h2>YEAYY!!!!🎉🎊🍬🍭🥳</h2>
+                <p id="bday-text">wishing u happiest birthday vintutt!</p>
+                <button onclick="closeModal()">Tutup</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="pinata.js"></script>
+</body>
+</html>
