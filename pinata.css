@@ -20,6 +20,12 @@ body {
     padding-top: 150px; /* Ruang untuk pesan dan tali */
 }
 
+/* --- UTILITY CLASS PERBAIKAN --- */
+/* Class ini yang sebelumnya hilang, menyebabkan modal tampil */
+.hidden { 
+    display: none !important; 
+}
+
 /* --- Pesan Status --- */
 .message-box {
     position: absolute;
